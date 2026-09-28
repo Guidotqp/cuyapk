@@ -1,0 +1,24 @@
+name: Extraer ZIP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Unzip project
+        run: |
+          unzip -o tucuy.zip -d .
+          rm tucuy.zip
+
+      - name: Commit extracted files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Extraer proyecto CuyManager" || echo "No changes"
+          git push
